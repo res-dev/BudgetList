@@ -1,6 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <data>
+        <variable
+            name="budgetItem"
+            type="com.resdev.budgetlist.persistence.budget_item.BudgetItem" />
+    </data>
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:id="@+id/divider"
+            android:background="@color/colorPrimary"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_small"
+            android:background="@drawable/background_rounded_rectangle"
+            android:backgroundTint="@{budgetItem.isIncome ? @color/colorPrimary : @color/colorSecondary}"
+            android:elevation="8dp">
+
+            <TextView
+                android:id="@+id/budget_priority"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:background="@drawable/background_rounded_rectangle"
+                android:backgroundTint="@color/colorAccent"
+                android:gravity="center"
+                android:padding="@dimen/margin_small"
+                android:textColor="@color/material_on_surface_emphasis_high_type"
+                android:text="@{budgetItem.isIncome ? @string/income : @string/outflow}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"/>
+
+            <TextView
+                android:id="@+id/budget_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{budgetItem.description}"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/budget_priority"
+                app:layout_constraintStart_toEndOf="@id/budget_priority"
+                app:layout_constraintEnd_toStartOf="@+id/drag_handle"/>
+
+            <TextView
+                android:id="@+id/budget_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{budgetItem.title}"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/budget_priority"
+                />
+
+            <ImageView
+                android:id="@+id/drag_handle"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:src="@drawable/ic_launcher_foreground"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+</layout>
