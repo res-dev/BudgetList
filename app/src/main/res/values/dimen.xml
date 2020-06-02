@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="height_primary">26dp</dimen>
+    <dimen name="width_primary">220dp</dimen>
+    <dimen name="height_secondary_larger">32dp</dimen>
+    <dimen name="width_secondary_larger">400dp</dimen>
+
+</resources>
