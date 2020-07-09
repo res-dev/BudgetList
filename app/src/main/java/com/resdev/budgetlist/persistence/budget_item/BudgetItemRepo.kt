@@ -1,6 +1,7 @@
 package com.resdev.budgetlist.persistence.budget_item
 
-import org.intellij.lang.annotations.Flow
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class BudgetItemRepo(private val dao: BudgetItemDao) {
     suspend fun createBudgetItem(record: BudgetItem) {
@@ -17,8 +18,6 @@ class BudgetItemRepo(private val dao: BudgetItemDao) {
 
     fun getAllBudgetItemsAsLiveData(): Flow<List<BudgetItem>> {
         return dao.getAllBudgetItemsAsLiveData()
-            .map {
-                budgetList -> budgetList.map { it.toBudgetItem() }
-            }
+            .map { budgetList -> budgetList.map { it.toBudgetItem() } }
     }
 }

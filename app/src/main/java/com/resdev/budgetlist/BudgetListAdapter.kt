@@ -3,10 +3,12 @@ package com.resdev.budgetlist
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.resdev.budgetlist.persistence.budget_item.BudgetItem
+import androidx.recyclerview.widget.RecyclerView
+import com.resdev.budgetlist.databinding.BudgetItemViewBinding
 
 class BudgetListAdapter(
     var data: List<BudgetItem>,
-    val clickHandler: BudgetListFragment.BudgetInteractHandler
+    private val clickHandler: BudgetListFragment.BudgetInteractHandler
 ): RecyclerView.Adapter<BudgetItemHolder>() {
     private lateinit var binding: BudgetItemViewBinding
 

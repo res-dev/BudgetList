@@ -1,11 +1,17 @@
 package com.resdev.budgetlist
 
+import android.os.Bundle
 import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.databinding.InverseMethod
 import com.resdev.budgetlist.persistence.budget_item.BudgetItem
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.resdev.budgetlist.databinding.BudgetItemActionsheetBinding
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BudgetItemActionSheet(val budgetItem: BudgetItem) : BottomSheetDialogFragment() {
@@ -16,12 +22,13 @@ class BudgetItemActionSheet(val budgetItem: BudgetItem) : BottomSheetDialogFragm
         const val TAG = "BudgetItemActionSheet"
     }
 
+    //TODO I don't think I'm actually going to use priority, so I could probably remove the Formatter...
     object Formatter {
         fun convertPriority(value: Int) : String {
             return if(value < 0) { "" } else { value.toString() }
         }
 
-        @InverseMethod
+        @InverseMethod("convertPriority")
         fun convertToPriority(value: String) : Int? {
             return if(value.isEmpty()) { 0 } else { value.toIntOrNull() }
         }
@@ -32,15 +39,15 @@ class BudgetItemActionSheet(val budgetItem: BudgetItem) : BottomSheetDialogFragm
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ) : View? {
-        binding = BudgetItemActionSheetBinging.inflate(inflater, container, false)
+        binding = BudgetItemActionsheetBinding.inflate(inflater, container, false)
         binding.budgetItem = budgetItem
         binding.converter = Formatter
         binding.inputTitle.addTextChangedListener(object: TextWatcher {
-            override fun beforeTextChagned(s: CharSequence?, start: Int, count: Int, after: Int) {
-                //TODO Before
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                //do nothing
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                //TODO OnTextChanged
+                //do nothing
             }
             override fun afterTextChanged(s: Editable?) {
                 budgetItem.title = s.toString()
@@ -48,22 +55,18 @@ class BudgetItemActionSheet(val budgetItem: BudgetItem) : BottomSheetDialogFragm
             }
         })
         binding.inputDescription.addTextChangedListener(object: TextWatcher {
-            override fun beforeTextChagned(s: CharSequence?, start: Int, count: Int, after: Int) {
-                //TODO Before
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                //do nothing
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                //TODO OnTextChanged
+                //do nothing
             }
             override fun afterTextChanged(s: Editable?) {
                 budgetItem.description = s.toString()
                 budgetItem.updatedAt = System.currentTimeMillis()
             }
         })
-        //binding.inputPriority.addTextChangedListener // TODO don't think we'll need priority
-        binding.inputIsComplete.setOnCheckedChangeListener { _, isChecked ->
-            budgetItem.isComplete = isChecked
-        }
-        binding.inputSave.setOnClickListener {
+        binding.buttonSave.setOnClickListener {
             GlobalScope.launch {
                 budgetViewModel.saveBudgetItem(budgetItem)
                 dismiss()
